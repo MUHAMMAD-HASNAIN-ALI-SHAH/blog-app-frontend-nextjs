@@ -2,6 +2,7 @@
 import { create } from "zustand";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { ApiError } from "./auth";
 
 interface blog {
   _id?: string;
@@ -13,9 +14,9 @@ interface blog {
 }
 
 interface BlogStore {
-  submitionState: Boolean;
-  deleteState: Boolean;
-  dashboardBlogsLoadingState: Boolean;
+  submitionState: boolean;
+  deleteState: boolean;
+  dashboardBlogsLoadingState: boolean;
   blogs: blog[];
   stats: {
     likes: number;
@@ -54,9 +55,8 @@ const useBlogStore = create<BlogStore>((set) => ({
         duration: 3000,
       });
       set({ submitionState: false });
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error("Failed to update blog", { duration: 3000 });
-      console.error(error);
       set({ submitionState: false });
     }
   },
@@ -74,8 +74,7 @@ const useBlogStore = create<BlogStore>((set) => ({
       );
       set({ blogs: response.data.blogs });
       set({ dashboardBlogsLoadingState: false });
-    } catch (error: any) {
-      console.log(error.response.data.status);
+    } catch (error: unknown) {
       set({ dashboardBlogsLoadingState: false });
     }
   },
@@ -95,9 +94,9 @@ const useBlogStore = create<BlogStore>((set) => ({
         duration: 3000,
       });
       set({ deleteState: false });
-    } catch (error: any) {
-      toast.error(error?.response.data.message, { duration: 3000 });
-      console.error(error);
+    } catch (err: unknown) {
+      const error = err as ApiError;
+      toast.error(error?.response?.data?.message || "Failed to delete blog", { duration: 3000 });
       set({ deleteState: false });
     }
   },
@@ -118,9 +117,8 @@ const useBlogStore = create<BlogStore>((set) => ({
         duration: 3000,
       });
       set({ submitionState: false });
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error("Failed to update blog", { duration: 3000 });
-      console.error(error);
       set({ submitionState: false });
     }
   },
@@ -129,9 +127,8 @@ const useBlogStore = create<BlogStore>((set) => ({
     try {
       const response = await axios.get("/blog/liked-blogs");
       return response.data.blogs;
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error("Failed to fetch liked blogs", { duration: 3000 });
-      console.error(error);
       return [];
     }
   },
@@ -147,10 +144,8 @@ const useBlogStore = create<BlogStore>((set) => ({
         }
       );
       set({ stats: response.data });
-    } catch (error: any) {
-      console.log(error.response.status);
+    } catch (error: unknown) {
       toast.error("Failed to fetch comments", { duration: 3000 });
-      console.error(error);
     }
   },
   clearState: () => {

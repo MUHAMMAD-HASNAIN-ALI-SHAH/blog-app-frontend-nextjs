@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export const VerticalBlogCard = ({
@@ -28,10 +29,12 @@ export const VerticalBlogCard = ({
 
       {/* Image */}
       <div className="h-[180px] w-full">
-        <img
+        <Image
           src={blog.image}
           alt={blog.title}
           className="w-full h-full object-cover rounded-t-2xl"
+          width={400}
+          height={180}
         />
       </div>
 
@@ -75,10 +78,12 @@ export const HorizontalBlogCard = ({
     >
       {/* Image */}
       <div className="sm:w-64 w-full h-40 bg-gray-100 flex-shrink-0">
-        <img
+        <Image
           src={blog.image}
           alt={blog.title}
           className="w-full h-full object-cover"
+          width={256}
+          height={160}
         />
       </div>
 

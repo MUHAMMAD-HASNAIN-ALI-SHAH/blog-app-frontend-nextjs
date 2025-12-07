@@ -3,6 +3,14 @@ import toast from "react-hot-toast";
 import useBlogStore from "./blog";
 import axios from "axios";
 
+export type ApiError = {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+};
+
 interface User {
   _id?: string;
   username: string;
@@ -17,7 +25,7 @@ interface AuthState {
   authLoader: boolean;
   signin: (formData: { email: string; password: string }) => Promise<number>;
   register: (formData: {
-    username: String;
+    username: string;
     email: string;
     password: string;
   }) => Promise<number>;
@@ -26,7 +34,7 @@ interface AuthState {
   logout: () => void;
 }
 
-const useAuthStore = create<AuthState>((set: (arg0: { authLoader?: boolean; user?: any; isAuthenticated?: boolean; isAuthenticatedLoading?: boolean; }) => void) => ({
+const useAuthStore = create<AuthState>((set: (arg0: { authLoader?: boolean; user?: User | null; isAuthenticated?: boolean; isAuthenticatedLoading?: boolean; }) => void) => ({
   user: null,
   profile: null,
   isAuthenticated: false,
@@ -44,8 +52,9 @@ const useAuthStore = create<AuthState>((set: (arg0: { authLoader?: boolean; user
       toast.success(response.data.message, { duration: 3000 });
       set({ authLoader: false });
       return 1;
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message || "Signup failed", {
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      toast.error(err?.response?.data?.message || "Signup failed", {
         duration: 3000,
       });
       set({ authLoader: false });
@@ -59,7 +68,7 @@ const useAuthStore = create<AuthState>((set: (arg0: { authLoader?: boolean; user
       useBlogStore.getState().clearState();
       set({ authLoader: true });
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/signin`,
         formData
       );
       sessionStorage.setItem("access_token", response.data.access_token);
@@ -69,7 +78,8 @@ const useAuthStore = create<AuthState>((set: (arg0: { authLoader?: boolean; user
       });
       set({ authLoader: false });
       return 1;
-    } catch (error: any) {
+    } catch (err: unknown) {
+      const error = err as ApiError;
       toast.error(error?.response?.data?.message || "Login failed", {
         duration: 3000,
       });
@@ -118,7 +128,7 @@ const useAuthStore = create<AuthState>((set: (arg0: { authLoader?: boolean; user
         isAuthenticated: true,
       });
       set({ isAuthenticatedLoading: false });
-    } catch (error: any) {
+    } catch (error: unknown) {
       set({ user: null, isAuthenticated: false });
       set({ isAuthenticatedLoading: false });
     }
@@ -130,7 +140,8 @@ const useAuthStore = create<AuthState>((set: (arg0: { authLoader?: boolean; user
       set({ user: null, isAuthenticated: false });
       sessionStorage.removeItem("access_token");
       toast.success("Logged out successfully", { duration: 3000 });
-    } catch (error: any) {
+    } catch (err: unknown) {
+      const error = err as ApiError;
       toast.error(error?.response?.data?.message || "Logout failed", {
         duration: 3000,
       });

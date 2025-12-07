@@ -40,7 +40,7 @@ const Signup = () => {
     if (!validate()) return;
 
     const result = await register({ username, email, password });
-    if (result === 1) router.push("/login");
+    if (result === 1) router.push("/signin");
   };
 
   return (
@@ -90,7 +90,7 @@ const Signup = () => {
             Already have an account?{" "}
             <button
               type="button"
-              onClick={() => router.push("/login")}
+              onClick={() => router.push("/signin")}
               className="text-blue-700"
             >
               Signin

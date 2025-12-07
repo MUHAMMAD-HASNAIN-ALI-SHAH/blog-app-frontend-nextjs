@@ -50,7 +50,7 @@ const CategoryBlogs = () => {
       {/* Blogs for active category */}
       {filteredBlogs.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredBlogs.map((blog: { _id: any; title?: string; description?: string; image?: string; category?: string; views?: number; }) => {
+          {filteredBlogs.map((blog: { _id: string; title?: string; description?: string; image?: string; category?: string; views?: number; }) => {
             const safeBlog = {
               _id: blog._id,
               title: blog.title ?? "Untitled",

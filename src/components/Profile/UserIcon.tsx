@@ -1,6 +1,9 @@
+"use client";
+
 import { useRef, useEffect, useState } from "react";
 import useAuthStore from "../../store/auth";
 import { Loader } from "@mantine/core";
+import Image from "next/image";
 
 const UserIcon = () => {
   const { updateImage, authLoader, user } = useAuthStore();
@@ -43,10 +46,12 @@ const UserIcon = () => {
 
   return (
     <div className="relative flex items-center justify-center w-44 h-44 md:w-96 md:h-64 bg-gray-200 rounded-full shadow-md p-5">
-      <img
+      <Image
         ref={previewRef}
         src={imageSrc}
         className="w-full h-full rounded-full object-cover"
+        width={384}
+        height={256}
         alt="User Icon"
       />
 

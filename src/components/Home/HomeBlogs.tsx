@@ -17,7 +17,7 @@ const PopularBlogs = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-        {popularBlogs.map((blog: any) => (
+        {popularBlogs.map((blog) => (
           <VerticalBlogCard
             key={blog._id}
             blog={{
@@ -39,17 +39,17 @@ const RecentsBlogs = () => {
   const { blogs } = useHomeBlogStore();
   const recentsBlogs = blogs
     .sort(
-      (a: any, b: any) =>
+      (a, b) =>
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
     )
     .slice(0, 3);
 
   return (
     <div className="max-w-7xl mx-auto py-8 mt-10">
-      <h3 className="text-2xl font-bold text-gray-800 mb-6">Latest Posts</h3>
+      <h3 className="text-2xl font-bold text-gray-800 mb-6">Recents Posts</h3>
 
       <div className="flex flex-col gap-6">
-        {recentsBlogs.map((blog: any) => (
+        {recentsBlogs.map((blog) => (
           <HorizontalBlogCard
             key={blog._id}
             blog={{
@@ -74,7 +74,7 @@ const HomeBlogs = () => {
     if (!blogs || blogs.length === 0) {
       getBlogs();
     }
-  }, [getBlogs]);
+  }, [getBlogs,blogs]);
 
   return (
     <div className="py-6 px-6">

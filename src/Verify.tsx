@@ -7,7 +7,7 @@ const Verify = () => {
 
   useEffect(() => {
     verify();
-  }, []);
+  }, [verify]);
   return null;
 };
 

@@ -12,7 +12,7 @@ const Hero = () => {
         </h1>
         <p className="text-gray-600 text-sm md:text-lg mb-8 leading-relaxed">
           Share your thoughts, explore insightful articles, and connect with a
-          community of passionate writers. Whether you're here to learn,
+          community of passionate writers. Whether you&aposre here to learn,
           express, or inspire, this is your space to create and discover new
           ideas.
         </p>

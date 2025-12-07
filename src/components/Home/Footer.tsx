@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   FaFacebookF,
   FaTwitter,
@@ -22,9 +23,9 @@ const Footer = () => {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Links</h3>
           <ul className="space-y-2 text-sm">
             <li>
-              <a href="/" className="hover:text-blue-600 transition">
+              <Link href="/" className="hover:text-blue-600 transition">
                 Home
-              </a>
+              </Link>
             </li>
             <li>
               <a href="/dashboard" className="hover:text-blue-600 transition">

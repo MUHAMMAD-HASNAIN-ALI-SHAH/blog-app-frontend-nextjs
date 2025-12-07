@@ -27,7 +27,7 @@ const DashboardMain = () => {
     fetchLikesAndComments();
 
     fetchData();
-  }, []);
+  }, [getBlogs, getStats]);
 
   return (
     <div className="w-full mt-20">

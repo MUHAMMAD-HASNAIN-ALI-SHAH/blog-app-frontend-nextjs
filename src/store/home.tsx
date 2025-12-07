@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 interface BlogStore {
   blogs: HomeBlog[];
-  commentLoadingState: Boolean;
+  commentLoadingState: boolean;
   blog: BlogData | null;
   getHomeBlogsLoader: boolean;
   getBlogs: () => void;
@@ -39,7 +39,7 @@ const useHomeBlogStore = create<BlogStore>((set) => ({
         `${process.env.NEXT_PUBLIC_API_URL}/blog/${id}`
       );
       set({ blog: response.data.blog });
-    } catch (error) {
+    } catch (error:unknown) {
       return null;
     }
   },
@@ -71,9 +71,8 @@ const useHomeBlogStore = create<BlogStore>((set) => ({
       toast.success(response.data.message, {
         duration: 3000,
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error("Failed to add comment", { duration: 3000 });
-      console.error(error);
     }
   },
   addComment: async (data, id) => {
@@ -97,9 +96,8 @@ const useHomeBlogStore = create<BlogStore>((set) => ({
         duration: 3000,
       });
       set({ commentLoadingState: false });
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error("Failed to add comment", { duration: 3000 });
-      console.error(error);
       set({ commentLoadingState: false });
     }
   },

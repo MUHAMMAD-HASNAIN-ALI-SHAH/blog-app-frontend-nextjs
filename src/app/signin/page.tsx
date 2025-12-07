@@ -87,7 +87,7 @@ const Page = () => {
             No account?{" "}
             <button
               type="button"
-              onClick={() => router.push("/register")}
+              onClick={() => router.push("/signup")}
               className="text-blue-600 hover:underline font-medium"
             >
               Signup

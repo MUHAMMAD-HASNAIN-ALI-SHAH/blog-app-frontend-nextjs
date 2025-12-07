@@ -33,7 +33,7 @@ const getAiResponse = async (title: string) => {
   }
 };
 
-const AddBlog = ({ onClose }: { onClose: any }) => {
+const AddBlog = ({ onClose }: { onClose: () => void }) => {
   const [preview, setPreview] = useState<string | null>(null);
   const { addBlog, submitionState, getBlogs } = useBlogStore();
   const [aiDescriptionLoader, setAiDescriptionLoader] = useState(false);

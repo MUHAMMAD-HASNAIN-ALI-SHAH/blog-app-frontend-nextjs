@@ -1,21 +1,22 @@
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button } from "@mantine/core";
 import useBlogStore from "../../store/blog";
-import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useState } from "react";
+import { useState } from "react";
 import EditBlog from "./EditBlog";
 import AddBlog from "./AddBlog";
+import Image from "next/image";
 
 const DashboardBlogs = () => {
   const { blogs, deleteBlog, getBlogs, deleteState } = useBlogStore();
-  const [opened, { open, close }] = useDisclosure(false);
+
+  const [editOpened, editHandlers] = useDisclosure(false);
+  const [addOpened, addHandlers] = useDisclosure(false);
+
   const [selectedBlogId, setSelectedBlogId] = useState<string | null>(null);
 
-  const [AddBlogOpened, addBlog] = useDisclosure(false);
-
   const handleEdit = (id: string) => {
-    close();
     setSelectedBlogId(id);
-    open();
+    editHandlers.open();
   };
 
   const deleteBlogFunction = async (_id: string) => {
@@ -27,17 +28,24 @@ const DashboardBlogs = () => {
     <div className="p-6">
       <div className="w-full flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold mb-4">My Blogs</h2>
-        <Modal opened={AddBlogOpened} onClose={addBlog.close} title="Add Blog" centered>
-          <AddBlog onClose={addBlog.close} />
+
+        {/* Add Blog Modal */}
+        <Modal opened={addOpened} onClose={addHandlers.close} title="Add Blog" centered>
+          <AddBlog onClose={addHandlers.close} />
         </Modal>
-        <Button onClick={addBlog.open} className="btn btn-primary">
+
+        <button
+          onClick={addHandlers.open}
+          className="px-5 py-2 cursor-pointer rounded-md bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors"
+        >
           Add Blog
-        </Button>
+        </button>
       </div>
 
-      <Modal opened={opened} onClose={close} title="Edit Blog" centered>
-        {selectedBlogId !== null && (
-          <EditBlog _id={selectedBlogId} onClose={close} />
+      {/* Edit Blog Modal */}
+      <Modal opened={editOpened} onClose={editHandlers.close} title="Edit Blog" centered>
+        {selectedBlogId && (
+          <EditBlog _id={selectedBlogId} onClose={editHandlers.close} />
         )}
       </Modal>
 
@@ -48,22 +56,19 @@ const DashboardBlogs = () => {
               key={blog._id}
               className="card bg-base-100 w-full border border-base-200 rounded-xl shadow-2xl"
             >
-              {/* Image */}
               <figure className="h-[180px]">
-                <img
+                <Image
                   src={blog.image}
                   alt={typeof blog.title === "string" ? blog.title : ""}
                   className="w-full h-full object-cover rounded-t-xl"
+                  width={400}
+                  height={180}
                 />
               </figure>
 
-              {/* Card Content */}
               <div className="card-body p-4">
-                <h2 className="card-title text-lg font-semibold">
-                  {blog.title}
-                </h2>
+                <h2 className="card-title text-lg font-semibold">{blog.title}</h2>
 
-                {/* Truncate Description to 100 characters */}
                 <p className="text-gray-600 text-sm">
                   {typeof blog.description === "string"
                     ? blog.description.length > 100
@@ -79,9 +84,10 @@ const DashboardBlogs = () => {
                   >
                     Edit
                   </Button>
+
                   <Button
                     onClick={() =>
-                      blog._id !== null && deleteBlogFunction(String(blog._id))
+                      blog._id && deleteBlogFunction(String(blog._id))
                     }
                     className="bg-red-500 hover:bg-red-600"
                     disabled={!!deleteState}

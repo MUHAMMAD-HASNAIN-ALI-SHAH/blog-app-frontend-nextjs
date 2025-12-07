@@ -6,6 +6,7 @@ import Footer from "@/components/Home/Footer";
 import { MantineProvider } from "@mantine/core";
 import { Toaster } from "react-hot-toast";
 import Verify from "@/Verify";
+import '@mantine/core/styles.css';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

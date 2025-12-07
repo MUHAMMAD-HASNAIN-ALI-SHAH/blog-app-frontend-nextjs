@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import useBlogStore from "../../store/blog";
 import axios from "axios";
 
-const EditBlog = ({ _id, onClose }: { _id: string; onClose: any }) => {
+const EditBlog = ({ _id, onClose }: { _id: string; onClose: () => void }) => {
   const [preview, setPreview] = useState<string | null>(null);
   const { updateBlog, submitionState, getBlogs } = useBlogStore();
 
@@ -61,7 +61,7 @@ const EditBlog = ({ _id, onClose }: { _id: string; onClose: any }) => {
       }
     };
     getBlogs();
-  }, [_id]);
+  }, [_id,form]);
 
   // Convert image to Base64
   const handleImageChange = (file: File | null) => {
@@ -120,7 +120,7 @@ const EditBlog = ({ _id, onClose }: { _id: string; onClose: any }) => {
 
       <p className="mt-5 text-sm">
         <span className="font-bold">NOTE: </span>Previous selected category{" "}
-        <span className="font-bold">"{form.getValues().category}"</span>
+        <span className="font-bold">&quot{form.getValues().category}&quot</span>
       </p>
       <p className="text-sm mb-2">
         Select category again if you want to change

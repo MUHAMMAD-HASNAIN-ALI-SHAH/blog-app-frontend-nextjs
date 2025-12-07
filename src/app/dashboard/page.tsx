@@ -11,7 +11,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!isAuthenticatedLoading && !isAuthenticated) {
-      router.push("/login");
+      router.push("/signin");
     }
   }, [isAuthenticated, isAuthenticatedLoading, router]);
 
