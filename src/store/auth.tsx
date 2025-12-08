@@ -68,7 +68,7 @@ const useAuthStore = create<AuthState>((set: (arg0: { authLoader?: boolean; user
       useBlogStore.getState().clearState();
       set({ authLoader: true });
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/signin`,
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
         formData
       );
       sessionStorage.setItem("access_token", response.data.access_token);
