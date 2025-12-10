@@ -54,7 +54,7 @@ const DashboardBlogs = () => {
           {blogs.map((blog) => (
             <div
               key={blog._id}
-              className="card bg-base-100 w-full border border-base-200 rounded-xl shadow-2xl"
+              className="card bg-base-100 w-full border border-gray-300 rounded-xl shadow-2xl"
             >
               <figure className="h-[180px]">
                 <Image
@@ -77,7 +77,7 @@ const DashboardBlogs = () => {
                     : blog.description ?? ""}
                 </p>
 
-                <div className="card-actions justify-end mt-2">
+                <div className="flex justify-end gap-2 mt-2">
                   <Button
                     onClick={() => handleEdit(String(blog._id))}
                     className="btn btn-warning btn-sm"
